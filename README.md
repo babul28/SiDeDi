@@ -2,7 +2,7 @@
 
 ## How to Use?
 * Clone this `repo` to your local repo
-* install package with command `composer install`
-* set `.env` file with your configuration
-* running migration `php artisan migrate`
+* Install package with command `composer install`
+* Set `.env` file with your configuration
+* Running migration with command `php artisan migrate`
 * **Happy Coding!!**

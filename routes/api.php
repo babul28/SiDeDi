@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('questions/', 'Api\ShowQuestion');
+
 Route::apiResource('class', 'Api\ClassesController');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
