@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
 /*
@@ -14,9 +15,10 @@ use Illuminate\Http\Request;
 */
 
 Route::get('questions/', 'Api\ShowQuestion');
+Route::post('register/', 'Api\RegisterUser');
 
 Route::apiResource('class', 'Api\ClassesController');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    return new UserResource($request->user());
 });

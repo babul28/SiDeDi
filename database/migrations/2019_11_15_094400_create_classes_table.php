@@ -18,7 +18,10 @@ class CreateClassesTable extends Migration
             $table->string('name_class', 100);
             $table->string('path_img_header');
             $table->string('code_ref_class', 10);
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
