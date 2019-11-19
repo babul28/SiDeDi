@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 
 Route::get('questions/', 'Api\ShowQuestion');
 Route::post('register/', 'Api\RegisterUser');
+Route::post('login/', 'Api\LoginUser');
 
 Route::apiResource('class', 'Api\ClassesController');
 
