@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Classe;
 use App\Classe as Kelas;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class ClassesController extends Controller
     {
         return response([
             'status' => 'success',
-            'data' => Kelas::all()
+            'data' => Kelas::with('students.answers.question.category', 'user.teacherBiodata')->get(),
         ]);
     }
 
@@ -41,7 +42,7 @@ class ClassesController extends Controller
         return response([
             'status' => 'success',
             'data' => $class
-        ]);
+        ], 201);
     }
 
     /**
@@ -50,20 +51,15 @@ class ClassesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Classe $class)
     {
-        $class = Kelas::find($id);
+        $class->loadMissing('students.answers.question.category', 'user.teacherBiodata');
 
         if ($class)
             return response([
                 'status' => 'success',
                 'data' => $class
-            ]);
-
-        return response([
-            'status' => 'failed',
-            'messages' => 'File Not Found!'
-        ], 404);
+            ], 200);
     }
 
     /**
@@ -90,6 +86,28 @@ class ClassesController extends Controller
         return response([
             'status' => 'failed',
             'messages' => 'File Not Found!'
+        ], 404);
+    }
+
+    /**
+     * @param Request $request
+     * @param Kelas $class
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function join(Request $request, Kelas $class)
+    {
+        $studentClass = $class->with('user.teacherBiodata')->where('code_ref_class', $request->code)->first();
+
+        if ($studentClass) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $studentClass
+            ], 200);
+        }
+
+        return response([
+            'status' => 'failed',
+            'messages' => 'Class with ref code ' . $request->code . ' Not Found!'
         ], 404);
     }
 

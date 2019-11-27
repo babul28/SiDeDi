@@ -15,7 +15,7 @@ class RegisterUser extends Controller
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      */
     public function __invoke(Request $request)
     {
@@ -34,7 +34,7 @@ class RegisterUser extends Controller
 
         /**
          * return UserResource with Meta data
-         * 
+         *
          * @meta api_token
          */
         return (new UserResource($user))->additional([

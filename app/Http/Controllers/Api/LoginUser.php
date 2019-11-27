@@ -13,13 +13,13 @@ class LoginUser extends Controller
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      */
     public function __invoke(Request $request)
     {
         /**
          * Validation Request user
-         * 
+         *
          * @var String email
          * @var String password
          */
@@ -30,7 +30,7 @@ class LoginUser extends Controller
 
         /**
          * Checking Authentication of User
-         * 
+         *
          * @return App\Http\Resources\UserResource
          */
         if (Auth::once($request->only(['email', 'password']))) {
@@ -45,7 +45,7 @@ class LoginUser extends Controller
 
         /**
          * If Authentication Checking is Invalid
-         * 
+         *
          * @return \Illuminate\Http\Response
          */
         return response([

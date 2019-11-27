@@ -20,7 +20,10 @@ class CreateTableStudents extends Migration
             $table->enum('gender', ['laki-laki', 'perempuan']);
             $table->enum('religion', ['islam', 'kristen', 'katholik', 'hindu', 'buddha', 'konghuchu']);
             $table->tinyInteger('age');
+            $table->unsignedBigInteger('class_id');
             $table->timestamps();
+
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
         });
     }
 

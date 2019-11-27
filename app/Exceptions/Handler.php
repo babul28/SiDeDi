@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -46,6 +47,19 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        /**
+         * Render response when Model Binding was Not Found!
+         * this request only use for API with accept header is application/json
+         *
+         * @return \Illuminate\Http\Response
+         */
+        if ($exception instanceof ModelNotFoundException && $request->wantsJson()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'The data you requested was not found',
+            ], 404);
+        }
+
         return parent::render($request, $exception);
     }
 }
