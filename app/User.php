@@ -37,8 +37,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function TeacherBiodata()
+    /**
+     * Relation One to One with Teacher_Biodata Table
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function teacherBiodata()
     {
         return $this->hasOne('App\TeacherBiodata');
+    }
+
+    /**
+     * Relation One to Many with Classes Table
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function classes()
+    {
+        return $this->hasMany('App\Classe');
     }
 }
