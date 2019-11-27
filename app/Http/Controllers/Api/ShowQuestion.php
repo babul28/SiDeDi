@@ -8,11 +8,14 @@ use App\Http\Controllers\Controller;
 
 class ShowQuestion extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function __invoke()
     {
         return response([
             'status' => 'success',
-            'data' => Question::all()
+            'data' => Question::inRandomOrder()->get(),
         ]);
     }
 }
