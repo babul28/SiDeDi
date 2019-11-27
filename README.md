@@ -9,4 +9,4 @@
 * **Happy Coding!!**
 
 ## Documentation
-[Documentation for using this API in here!](https://documenter.getpostman.com/view/6451298/SW7eyQeC?version=latest#ed87f1e8-84e7-4108-aa54-29b949508272)
+[Documentation for using this API in here!](https://documenter.getpostman.com/view/6451298/SW7eyQeC?version=latest)
