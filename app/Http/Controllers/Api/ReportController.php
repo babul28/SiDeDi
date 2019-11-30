@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Classe;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ClassCollection;
+use App\Http\Resources\ClassWithReportCollection;
+use App\Http\Resources\ReportCollection;
 use App\Report;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
@@ -15,12 +20,14 @@ class ReportController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'status' => 'success',
-            'data' => [
-                'items' => Report::with('student.class', 'student.answers.question.category')->get(),
-            ]
-        ], 200);
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => [
+        //         'items' => Report::with('student.class', 'student.answers.question.category')->get(),
+        //     ]
+        // ], 200);
+
+        return new ClassWithReportCollection(Classe::where('id', Auth::user()->id)->with('students.answers.question.category', 'user.teacherBiodata', 'students.report')->get());
     }
 
     /**

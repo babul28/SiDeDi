@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class LoginUser extends Controller
@@ -12,7 +13,7 @@ class LoginUser extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return UserResource
      */
     public function __invoke(Request $request)
@@ -25,7 +26,7 @@ class LoginUser extends Controller
          */
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:5'
+            'password' => 'required|min:5',
         ]);
 
         /**
@@ -34,7 +35,7 @@ class LoginUser extends Controller
          * @return App\Http\Resources\UserResource
          */
         if (Auth::once($request->only(['email', 'password']))) {
-            $currentUser = Auth::user();
+            $currentUser = Auth::user()->loadMissing('teacherBiodata');
 
             return (new UserResource($currentUser))->additional([
                 'meta' => [
@@ -46,12 +47,11 @@ class LoginUser extends Controller
         /**
          * If Authentication Checking is Invalid
          *
-         * @return \Illuminate\Http\Response
+         * @return Response
          */
         return response([
-            'data' => [
-                'type' => 'Your credentials not match!'
-            ],
+            'error' => 'Non Authorize!',
+            'message' => 'Your credentials not match!',
         ], 203);
     }
 }

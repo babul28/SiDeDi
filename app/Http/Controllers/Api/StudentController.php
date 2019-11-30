@@ -40,7 +40,7 @@ class StudentController extends Controller
             'age' => 'required',
         ]);
 
-        $student = $class->find($request->class_id)->students()->create([
+        $student = $class->findOrFail($request->class_id)->students()->create([
             'name' => $request->name,
             'NISN' => $request->NISN,
             'gender' => $request->gender,

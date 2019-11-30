@@ -63,9 +63,14 @@ class AnswersController extends Controller
      */
     public function store(Request $request, Student $student)
     {
+        $request->validate([
+            'student_id' => 'required',
+            'answers' => 'required',
+        ]);
+
         $dataAnswer = [];
 
-        foreach ($request->answer as $item) {
+        foreach ($request->answers as $item) {
             $dataAnswer[] = [
                 'student_id' => $request->student_id,
                 'question_id' => $item['question_id'],
@@ -97,7 +102,7 @@ class AnswersController extends Controller
                 'student' => $student,
                 'report' => $this->report($request)
             ],
-        ], 202);
+        ], 201);
     }
 
     /**

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Classe;
 use App\Classe as Kelas;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ClassCollection;
+use App\Http\Resources\ClassResources;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ClassesController extends Controller
@@ -17,10 +19,9 @@ class ClassesController extends Controller
      */
     public function index()
     {
-        return response([
-            'status' => 'success',
-            'data' => Kelas::with('students.answers.question.category', 'user.teacherBiodata')->get(),
-        ]);
+        $data = Auth::user()->loadMissing('classes.students.answers.question.category', 'classes.user');
+
+        return new ClassCollection($data->classes);
     }
 
     /**
@@ -48,18 +49,22 @@ class ClassesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param $class
      * @return \Illuminate\Http\Response
      */
-    public function show(Classe $class)
+    public function show($class)
     {
-        $class->loadMissing('students.answers.question.category', 'user.teacherBiodata');
+        $class = Kelas::where('id', $class)->where('user_id', Auth::user()->id)->first();
 
-        if ($class)
-            return response([
-                'status' => 'success',
-                'data' => $class
-            ], 200);
+        if ($class) {
+            $class->loadMissing('students.answers.question.category');
+            return response(new ClassResources($class), 200);
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'File not Found!'
+        ], 404);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\QuestionCollection;
 use App\Question;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,9 +14,6 @@ class ShowQuestion extends Controller
      */
     public function __invoke()
     {
-        return response([
-            'status' => 'success',
-            'data' => Question::inRandomOrder()->get(),
-        ]);
+        return new QuestionCollection(Question::inRandomOrder()->get());
     }
 }
