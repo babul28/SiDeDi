@@ -14,6 +14,7 @@ class CreateTeacherBiodataTable extends Migration
     public function up()
     {
         Schema::create('teacher_biodata', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->unique();
             $table->string('NIP');
             $table->enum('gender', ['laki-laki', 'perempuan']);
