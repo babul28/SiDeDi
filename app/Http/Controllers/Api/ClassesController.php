@@ -6,6 +6,8 @@ use App\Classe as Kelas;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ClassCollection;
 use App\Http\Resources\ClassResources;
+use App\Http\Resources\ClassWithAuthorResources;
+use App\Http\Resources\StudentResources;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -32,12 +34,18 @@ class ClassesController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'class_name' => 'required',
+            'header_image' => 'required',
+        ]);
+
         $pathFile = '';
 
         $class = Kelas::create([
-            'name_class' => $request->name_class,
-            'path_img_header' => htmlspecialchars($request->pathFile),
-            'code_ref_class' => Str::random(10)
+            'name_class' => $request->class_name,
+            'path_img_header' => htmlspecialchars($request->header_image),
+            'code_ref_class' => Str::random(10),
+            'user_id' => Auth::user()->id,
         ]);
 
         return response([
@@ -76,10 +84,14 @@ class ClassesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'class_name' => 'required',
+        ]);
+
         $class = Kelas::find($id);
 
         if ($class) {
-            $class->name_class = $request->name_class;
+            $class->name_class = $request->class_name;
             $class->save();
 
             return response([
@@ -106,7 +118,7 @@ class ClassesController extends Controller
         if ($studentClass) {
             return response()->json([
                 'status' => 'success',
-                'data' => $studentClass
+                'data' => new ClassWithAuthorResources($studentClass)
             ], 200);
         }
 

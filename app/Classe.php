@@ -12,7 +12,7 @@ class Classe extends Model
      *
      * @var array
      */
-    protected $fillable = ['name_class', 'path_img_header', 'code_ref_class'];
+    protected $fillable = ['name_class', 'path_img_header', 'code_ref_class', 'user_id'];
 
     /**
      * Relation One to Many with Answers Table
