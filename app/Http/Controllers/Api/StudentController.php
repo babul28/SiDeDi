@@ -38,6 +38,7 @@ class StudentController extends Controller
             'gender' => 'required',
             'religion' => 'required',
             'age' => 'required',
+            'class_id' => 'required'
         ]);
 
         $student = $class->findOrFail($request->class_id)->students()->create([
