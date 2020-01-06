@@ -35,7 +35,7 @@ class StudentController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'NISN' => 'required|min:10|numeric',
+            'NISN' => 'required|digits:10|numeric',
             'gender' => [
                 'required',
                 Rule::in(['laki-laki', 'perempuan'])
