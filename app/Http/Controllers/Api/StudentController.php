@@ -6,6 +6,7 @@ use App\Classe;
 use App\Http\Controllers\Controller;
 use App\Student;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
@@ -35,8 +36,11 @@ class StudentController extends Controller
         $request->validate([
             'name' => 'required',
             'NISN' => 'required|min:10|numeric',
-            'gender' => 'required',
-            'religion' => 'required',
+            'gender' => [
+                'required',
+                Rule::in(['laki-laki', 'perempuan'])
+            ],
+            'religion' => ['required', Rule::in(['islam', 'kristen', 'katholik', 'hindu', 'buddha', 'konghuchu'])],
             'age' => 'required',
             'class_id' => 'required'
         ]);
