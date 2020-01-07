@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Question;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ClassResources extends JsonResource
@@ -33,5 +34,20 @@ class ClassResources extends JsonResource
         //     'author' => new UserResource($this->user),
         //     'students' => new StudentCollection($this->students),
         // ];
+    }
+
+    /**
+     * Add meta data for classresources
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
+    public function with($request)
+    {
+        return [
+            'meta' => [
+                'questions' => Question::all(),
+            ]
+        ];
     }
 }
