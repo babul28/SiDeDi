@@ -18,7 +18,7 @@ class CreateTableStudents extends Migration
             $table->string('name');
             $table->string('NISN', 10);
             $table->enum('gender', ['laki-laki', 'perempuan']);
-            $table->enum('religion', ['islam', 'kristen', 'katholik', 'hindu', 'buddha', 'konghuchu']);
+            $table->enum('religion', ['islam', 'kristen', 'katolik', 'hindu', 'buddha', 'konghucu']);
             $table->tinyInteger('age');
             $table->unsignedBigInteger('class_id');
             $table->timestamps();

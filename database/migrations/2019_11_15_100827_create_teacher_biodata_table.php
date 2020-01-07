@@ -18,7 +18,7 @@ class CreateTeacherBiodataTable extends Migration
             $table->unsignedBigInteger('user_id')->unique();
             $table->string('NIP');
             $table->enum('gender', ['laki-laki', 'perempuan']);
-            $table->enum('religion', ['islam', 'kristen', 'katholik', 'hindu', 'buddha', 'konghuchu']);
+            $table->enum('religion', ['islam', 'kristen', 'katolik', 'hindu', 'buddha', 'konghucu']);
             $table->string('institution');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

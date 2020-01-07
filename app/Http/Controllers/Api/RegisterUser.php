@@ -29,7 +29,7 @@ class RegisterUser extends Controller
                 'required',
                 Rule::in(['laki-laki', 'perempuan'])
             ],
-            'religion' => ['required', Rule::in(['islam', 'kristen', 'katholik', 'hindu', 'buddha', 'konghuchu'])],
+            'religion' => ['required', Rule::in(['islam', 'kristen', 'katolik', 'hindu', 'buddha', 'konghucu'])],
             'institution' => 'required',
         ]);
 
