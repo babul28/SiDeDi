@@ -10,7 +10,7 @@ $factory->define(Student::class, function (Faker $faker) {
         'name' => $faker->name,
         'NISN' => $faker->randomNumber(9),
         'gender' => $faker->randomElement(['laki-laki', 'perempuan']),
-        'religion' => $faker->randomElement(['islam', 'kristen', 'katholik', 'hindu', 'buddha', 'konghuchu']),
+        'religion' => $faker->randomElement(['islam', 'kristen', 'katolik', 'hindu', 'buddha', 'konghucu']),
         'age' => $faker->numberBetween(15, 25),
         'class_id' => $faker->numberBetween(1, 10),
     ];

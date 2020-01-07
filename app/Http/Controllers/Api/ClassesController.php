@@ -21,7 +21,7 @@ class ClassesController extends Controller
      */
     public function index()
     {
-        $data = Auth::user()->loadMissing('classes.students.answers.question.category', 'classes.user');
+        $data = Auth::user()->loadMissing('classes.students', 'classes.user');
 
         return new ClassCollection($data->classes);
     }
@@ -44,7 +44,7 @@ class ClassesController extends Controller
         $class = Kelas::create([
             'name_class' => $request->class_name,
             'path_img_header' => htmlspecialchars($request->header_image),
-            'code_ref_class' => Str::random(10),
+            'code_ref_class' => Str::random(6),
             'user_id' => Auth::user()->id,
         ]);
 

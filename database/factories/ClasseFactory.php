@@ -12,7 +12,7 @@ $factory->define(Classe::class, function (Faker $faker) {
     return [
         'name_class' => $faker->word,
         'path_img_header' => $faker->imageUrl($width = 640, $height = 480),
-        'code_ref_class' => Str::random(10),
+        'code_ref_class' => Str::random(6),
         'user_id' => $user->id,
     ];
 });

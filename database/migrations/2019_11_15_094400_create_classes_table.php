@@ -17,7 +17,7 @@ class CreateClassesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name_class', 100);
             $table->string('path_img_header');
-            $table->string('code_ref_class', 10);
+            $table->string('code_ref_class', 6);
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
