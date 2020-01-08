@@ -157,7 +157,7 @@ class AnswersController extends Controller
      */
     private function getConclusion(Request $request)
     {
-        $answer = collect($request->answer);
+        $answer = collect($request->answers);
 
         $EksklusifAnswer = ($this->filterAnswer($answer, 1) >= 3) ? 3 : ($this->filterAnswer($answer, 1) >= 2 && $this->filterAnswer($answer, 1)  < 3 ? 2 : 1);
         $IntoleranAnswer = ($this->filterAnswer($answer, 2) >= 3) ? 3 : ($this->filterAnswer($answer, 2) >= 2 && $this->filterAnswer($answer, 2)  < 3 ? 2 : 1);

@@ -54,7 +54,7 @@ Route::group(['middleware' => 'auth:api'], function () {
      * Class Endpoint
      */
     Route::get('report', 'Api\ReportController@index')->name('report.index');
-    Route::get('report/{report}', 'Api\ReportController@show')->name('report.show');
+    Route::get('report/{class}', 'Api\ReportController@show')->name('report.show');
 
     /**
      * Students EndPoint

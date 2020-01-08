@@ -6,6 +6,7 @@ use App\Classe;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ClassCollection;
 use App\Http\Resources\ClassWithReportCollection;
+use App\Http\Resources\ClassWithReportResources;
 use App\Http\Resources\ReportCollection;
 use App\Report;
 use Illuminate\Http\Request;
@@ -37,16 +38,19 @@ class ReportController extends Controller
      * @param Report $report
      * @return void
      */
-    public function show(Report $report)
+    public function show(Classe $class)
     {
-        // Load missing relationship from model binding
-        $report->loadMissing('student.class', 'student.answers.question.category');
+        $class->loadMissing('students.answers.question.category', 'user.teacherBiodata', 'students.report');
+        return new ClassWithReportResources($class);
 
-        if ($report) {
-            return response()->json([
-                'status' => 'success',
-                'data' => $report,
-            ], 200);
-        }
+        // Load missing relationship from model binding
+        // $report->loadMissing('student.class', 'student.answers.question.category');
+
+        // if ($report) {
+        //     return response()->json([
+        //         'status' => 'success',
+        //         'data' => $report,
+        //     ], 200);
+        // }
     }
 }
