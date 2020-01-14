@@ -21,7 +21,6 @@ class ClassWithReportResources extends JsonResource
             'code_refferal' => $this->code_ref_class,
             'created_at' => $this->created_at->diffForHumans(),
             'author' => new UserResource($this->user),
-            'students' => new StudentWithReportCollection($this->students),
         ];
     }
 }

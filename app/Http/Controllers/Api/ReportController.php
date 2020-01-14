@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Classe;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ClassCollection;
 use App\Http\Resources\ClassWithReportCollection;
 use App\Http\Resources\ClassWithReportResources;
-use App\Http\Resources\ReportCollection;
+use App\Http\Resources\StudentWithReportCollection;
 use App\Report;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
@@ -21,14 +19,11 @@ class ReportController extends Controller
      */
     public function index()
     {
-        // return response()->json([
-        //     'status' => 'success',
-        //     'data' => [
-        //         'items' => Report::with('student.class', 'student.answers.question.category')->get(),
-        //     ]
-        // ], 200);
-
-        return new ClassWithReportCollection(Classe::where('id', Auth::user()->id)->with('students.answers.question.category', 'user.teacherBiodata', 'students.report')->get());
+        return new ClassWithReportCollection(Classe::where('id', Auth::user()->id)->with(
+            'students.answers.question.category',
+            'user.teacherBiodata',
+            'students.report'
+        )->get());
     }
 
     /**
@@ -41,16 +36,18 @@ class ReportController extends Controller
     public function show(Classe $class)
     {
         $class->loadMissing('students.answers.question.category', 'user.teacherBiodata', 'students.report');
-        return new ClassWithReportResources($class);
 
-        // Load missing relationship from model binding
-        // $report->loadMissing('student.class', 'student.answers.question.category');
+        // filter data based on summary then grouping
+        $filtered = $class->students->groupBy('report.summary');
 
-        // if ($report) {
-        //     return response()->json([
-        //         'status' => 'success',
-        //         'data' => $report,
-        //     ], 200);
-        // }
+        //return response
+        return (new ClassWithReportResources($class))->additional([
+            'meta' => [
+                'students' => [
+                    'kecenderunganPositif' => new StudentWithReportCollection($filtered['kecenderungan positif']),
+                    'kecenderunganNegatif' => new StudentWithReportCollection($filtered['kecenderungan negatif']),
+                ],
+            ],
+        ]);
     }
 }
