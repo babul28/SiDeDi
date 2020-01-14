@@ -65,9 +65,9 @@ class ClassesController extends Controller
         $class = Kelas::where('id', $class)->where('user_id', Auth::user()->id)->first();
 
         if ($class) {
-            $class->loadMissing('user');
+            $class->loadMissing('user', 'students');
 
-            return new ClassResources($class);
+            return (new ClassResources($class))->additional(['students' => $class->students]);
         }
 
         return response()->json([
