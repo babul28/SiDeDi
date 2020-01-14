@@ -40,13 +40,14 @@ class ReportController extends Controller
         // filter data based on summary then grouping
         $filtered = $class->students->groupBy('report.summary');
 
-        //return response
         return (new ClassWithReportResources($class))->additional([
             'meta' => [
-                'students' => [
-                    'kecenderunganPositif' => new StudentWithReportCollection($filtered['kecenderungan positif']),
-                    'kecenderunganNegatif' => new StudentWithReportCollection($filtered['kecenderungan negatif']),
+                'kecenderunganPositif' => [
+                    'students' => $filtered->has('kecenderungan positif') ? new StudentWithReportCollection($filtered['kecenderungan positif']) : [],
                 ],
+                'kecenderunganNegatif' => [
+                    'students' => $filtered->has('kecenderungan negatif') ? new StudentWithReportCollection($filtered['kecenderungan negatif']) : [],
+                ]
             ],
         ]);
     }

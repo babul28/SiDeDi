@@ -14,8 +14,6 @@ class StudentWithReportCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return [
-            StudentWithReportResources::collection($this->collection),
-        ];
+        return StudentWithReportResources::collection($this->collection);
     }
 }
