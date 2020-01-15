@@ -21,7 +21,8 @@ class StudentResources extends JsonResource
             'gender' => $this->gender,
             'religion' => $this->religion,
             'age' => $this->age,
-            'answers' => new AnswerCollection($this->answers),
+            'join_at' => $this->created_at->diffForHumans(),
+            'answers' => new AnswerCollection($this->whenLoaded('answers')),
         ];
     }
 }

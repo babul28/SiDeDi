@@ -67,7 +67,7 @@ class ClassesController extends Controller
         if ($class) {
             $class->loadMissing('user', 'students');
 
-            return (new ClassResources($class))->additional(['students' => $class->students]);
+            return (new ClassResources($class))->additional(['students' => StudentResources::collection($class->students)]);
         }
 
         return response()->json([
