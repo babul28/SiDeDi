@@ -10,6 +10,7 @@ use App\Http\Resources\ClassWithAuthorResources;
 use App\Http\Resources\StudentResources;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ClassesController extends Controller
@@ -36,14 +37,15 @@ class ClassesController extends Controller
     {
         $request->validate([
             'class_name' => 'required',
-            'header_image' => 'required',
+            'header_image' => 'required|image|max:2048',
         ]);
 
-        $pathFile = '';
+        $pathFile = Storage::disk('public')->putFile('images', $request->file('header_image'));
+        $pathFile = Storage::disk('public')->url($pathFile);
 
         $class = Kelas::create([
             'name_class' => $request->class_name,
-            'path_img_header' => htmlspecialchars($request->header_image),
+            'path_img_header' => htmlspecialchars($pathFile),
             'code_ref_class' => Str::random(6),
             'user_id' => Auth::user()->id,
         ]);
@@ -95,10 +97,35 @@ class ClassesController extends Controller
             $class->name_class = $request->class_name;
             $class->save();
 
-            return response([
-                'status' => 'success',
-                'data' => $class
-            ]);
+            return new ClassWithAuthorResources($class);
+        }
+
+        return response([
+            'status' => 'failed',
+            'messages' => 'File Not Found!'
+        ], 404);
+    }
+
+    /**
+     * Update the specified resource in storage
+     * @param \Illuminate\Http\Request $request
+     * @param App\Kelas $class
+     * @param \Illuminate\Http\Response $response
+     */
+    public function updateImage(Kelas $class, Request $request)
+    {
+        $request->validate([
+            'header_image' => 'required|image|max:2048',
+        ]);
+      
+        if ($class) {
+            $pathFile = Storage::disk('public')->putFile('images', $request->file('header_image'));
+            $pathFile = Storage::disk('public')->url($pathFile);
+
+            $class->path_img_header = htmlspecialchars($pathFile);
+            $class->save();
+
+            return new ClassWithAuthorResources($class);
         }
 
         return response([

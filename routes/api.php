@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth:api'], function () {
      * Class Endpoint
      */
     Route::apiResource('class', 'Api\ClassesController');
+    Route::put('class/{class}/image', 'Api\ClassesController@updateImage');
 
     /**
      * Class Endpoint
