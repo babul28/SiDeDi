@@ -22,7 +22,7 @@ class StudentWithReportResources extends JsonResource
             'religion' => $this->religion,
             'age' => $this->age,
             'report' => new ReportResources($this->report),
-            'answers' => new AnswerCollection($this->answers)
+            'answers' => new AnswerForReportCollection($this->answers)
         ];
     }
 }

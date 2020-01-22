@@ -44,9 +44,11 @@ class ReportController extends Controller
             'meta' => [
                 'kecenderunganPositif' => [
                     'students' => $filtered->has('kecenderungan positif') ? new StudentWithReportCollection($filtered['kecenderungan positif']) : [],
+                    'students_count' => $filtered->has('kecenderungan positif') ? $filtered['kecenderungan positif']->count() : 0,
                 ],
                 'kecenderunganNegatif' => [
                     'students' => $filtered->has('kecenderungan negatif') ? new StudentWithReportCollection($filtered['kecenderungan negatif']) : [],
+                    'students_count' => $filtered->has('kecenderungan negatif') ? $filtered['kecenderungan negatif']->count() : 0,
                 ]
             ],
         ]);
