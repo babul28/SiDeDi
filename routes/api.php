@@ -46,6 +46,13 @@ Route::post('student', 'Api\StudentController@store')->name('student.store');
 Route::group(['middleware' => 'auth:api'], function () {
 
     /**
+     * Class Profile
+     */
+    Route::get('profile', 'Api\ProfileController@index');
+    Route::put('profile', 'Api\ProfileController@update');
+    Route::put('profile/photo', 'Api\ProfileController@updateImage');
+
+    /**
      * Class Endpoint
      */
     Route::apiResource('class', 'Api\ClassesController');
