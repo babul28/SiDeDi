@@ -12,6 +12,35 @@ use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
+
+    /**
+     * String for Conclusion based on category Question
+     *
+     * @var array
+     */
+    private $getConclusions = [
+        'ekslusif' => [
+            1 => 'Rata-rata siswa kelas anda bisa bersikap terbuka dengan kelompok lain, tidak membatasi pergaulan diri, dan memiliki kepedulian dengan sesama meski berbeda agama',
+            2 => 'Rata-rata siswa kelas anda kurang sedikit bisa terbuka dengan kelompok lain, terkadang membatasi pergaulan diri, dan di waktu tertentu acuh terhadap kelompok yang berbeda agama',
+            3 => 'Rata-rata siswa kelas anda sangat tertutup terhadap keberadaan kelompok lain, perlu untuk membuka diri terhadap pergaulan di luar kelompok anda'
+        ],
+        'intoleran' => [
+            1 => 'Rata-rata siswa kelas anda sulit untuk berprasangka buruk terhadap kelompok lain,  mudah menerima keberadaan kelompok yang tidak seagama, sehingga mampu memperlakukan kelompok lain dengan sangat baik',
+            2 => 'Rata-rata siswa kelas anda terkadang sulit menerima keberadaan kelompok lain sehingga dapat memunculkan prasangka yang tidak baik',
+            3 => 'Rata-rata siswa kelas anda sangat sulit untuk menerima keberadaan kelompok lain, perlu untuk bisa membuka diri atas keberagamaan lingkungan di mana anda hidup'
+        ],
+        'ekstream' => [
+            1 => 'Rata-rata siswa kelas anda berpandangan bahwa ideologi negara adalah keyakinan yang perlu dibela, karena anda meyakini bahwa tidak ada pertentangan antara ideologi negara dengan ajaran agama',
+            2 => 'Rata-rata siswa kelas anda sedikit memiliki anggapan bahwa di bagian tertentu ideologi negara bertentangan dengan ajaran agama yang anda percayai',
+            3 => 'Rata-rata siswa kelas anda berpandangan bahwa ideologi negara sangat bertentangan dengan ajaran agama yang anda yakini sehingga perlu untuk direvisi'
+        ],
+        'kekerasan' => [
+            1 => 'Rata-rata siswa kelas anda tidak menyetujui bahwa satu-satunya cara untuk membela agama adalah dengan cara melakukan Kekerasan fisik',
+            2 => 'Rata-rata siswa kelas anda terkadang bisa berbuat kasar apabila agama yang kelompok anda percayai diganggu oleh kelompok lain',
+            3 => 'Rata-rata siswa kelas anda beranggapan bahwa penggunaan kekerasan dalam menegakkan agama adalah kewajiban'
+        ],
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -40,6 +69,14 @@ class ReportController extends Controller
         // filter data based on summary then grouping
         $filtered = $class->students->groupBy('report.summary');
 
+        // Get conclusions from the average attitude of students
+        $averageClassReport = [
+            'ekslusif' => $this->getConclusions['ekslusif'][round($class->students->avg('report.eksklusif'))],
+            'intoleran' => $this->getConclusions['intoleran'][round($class->students->avg('report.intoleran'))],
+            'ekstream' => $this->getConclusions['ekstream'][round($class->students->avg('report.ekstream'))],
+            'kekerasan' => $this->getConclusions['kekerasan'][round($class->students->avg('report.kekerasan'))],
+        ];
+
         return (new ClassWithReportResources($class))->additional([
             'meta' => [
                 'kecenderunganPositif' => [
@@ -49,7 +86,8 @@ class ReportController extends Controller
                 'kecenderunganNegatif' => [
                     'students' => $filtered->has('kecenderungan negatif') ? new StudentWithReportCollection($filtered['kecenderungan negatif']) : [],
                     'students_count' => $filtered->has('kecenderungan negatif') ? $filtered['kecenderungan negatif']->count() : 0,
-                ]
+                ],
+                'averageClassReport' => $averageClassReport,
             ],
         ]);
     }
