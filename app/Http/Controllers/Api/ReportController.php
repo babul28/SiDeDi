@@ -70,7 +70,9 @@ class ReportController extends Controller
         $filtered = $class->students->groupBy('report.summary');
 
         // Get conclusions from the average attitude of students
-        $averageClassReport = [
+        $studentsCount = $class->students->count();
+        // if the class has students, then data will be displayed. if not, an empty array will be returned
+        $averageClassReport = $studentsCount == 0 ? [] : [
             'ekslusif' => $this->getConclusions['ekslusif'][round($class->students->avg('report.eksklusif'))],
             'intoleran' => $this->getConclusions['intoleran'][round($class->students->avg('report.intoleran'))],
             'ekstream' => $this->getConclusions['ekstream'][round($class->students->avg('report.ekstream'))],
