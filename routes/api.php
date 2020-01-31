@@ -21,6 +21,8 @@ Route::get('questions/', 'Api\ShowQuestion')->name('questions');
  */
 Route::post('register/', 'Api\RegisterUser')->name('auth.register');
 Route::post('login/', 'Api\LoginUser')->name('auth.login');
+Route::post('auth/forget/', 'Api\ForgotPassword')->name('auth.forgetPassword');
+Route::post('auth/reset/', 'Api\ResetPassword')->name('auth.resetPassword');
 
 /**
  * Class Endpoint
