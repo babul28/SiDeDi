@@ -72,11 +72,11 @@ class ReportController extends Controller
         // Get conclusions from the average attitude of students
         $studentsCount = $class->students->count();
         // if the class has students, then data will be displayed. if not, an empty array will be returned
-        $averageClassReport = $studentsCount == 0 ? [] : [
-            'ekslusif' => $this->getConclusions['ekslusif'][round($class->students->avg('report.eksklusif'))],
-            'intoleran' => $this->getConclusions['intoleran'][round($class->students->avg('report.intoleran'))],
-            'ekstream' => $this->getConclusions['ekstream'][round($class->students->avg('report.ekstream'))],
-            'kekerasan' => $this->getConclusions['kekerasan'][round($class->students->avg('report.kekerasan'))],
+        $averageClassReport = [
+            'ekslusif' => $studentsCount == 0 ? '' : $this->getConclusions['ekslusif'][round($class->students->avg('report.eksklusif'))],
+            'intoleran' => $studentsCount == 0 ? '' : $this->getConclusions['intoleran'][round($class->students->avg('report.intoleran'))],
+            'ekstream' => $studentsCount == 0 ? '' : $this->getConclusions['ekstream'][round($class->students->avg('report.ekstream'))],
+            'kekerasan' => $studentsCount == 0 ? '' : $this->getConclusions['kekerasan'][round($class->students->avg('report.kekerasan'))],
         ];
 
         return (new ClassWithReportResources($class))->additional([
