@@ -48,11 +48,14 @@ class ReportController extends Controller
      */
     public function index()
     {
-        return new ClassWithReportCollection(Classe::where('id', Auth::user()->id)->with(
-            'students.answers.question.category',
-            'user.teacherBiodata',
-            'students.report'
-        )->get());
+        return new ClassWithReportCollection(
+            Classe::where('user_id', Auth::user()->id)->with(
+                'user.teacherBiodata'
+            )
+                ->withCount("students")
+                ->has('students', '>', 0)
+                ->get()
+        );
     }
 
     /**

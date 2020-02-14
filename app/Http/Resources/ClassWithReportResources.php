@@ -20,6 +20,7 @@ class ClassWithReportResources extends JsonResource
             'img_url' => $this->path_img_header,
             'code_refferal' => $this->code_ref_class,
             'created_at' => $this->created_at->diffForHumans(),
+            'students' => $this->students_count,
             'author' => new UserResource($this->user),
         ];
     }
